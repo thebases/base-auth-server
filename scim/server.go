@@ -46,7 +46,7 @@ Example JSON user resource
     ],
     "photos": [
         {
-            "value": "https://cdn.casbin.org/img/casbin.svg"
+            "value": "https://s3.thebase.vn/b/base/img/casbin.svg"
         }
     ],
     "emails": [

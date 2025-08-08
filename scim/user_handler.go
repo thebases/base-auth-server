@@ -229,7 +229,7 @@ func UpdateScimUserByPatchOperation(id string, ops []scim.PatchOperation) (r sci
 			}
 		case "photos":
 			defaultV := AnyArray{AnyMap{"value": ""}}
-			vs := ToAnyArray(value, defaultV) // e.g. [{"value": "https://cdn.casbin.org/img/casbin.svg"}]
+			vs := ToAnyArray(value, defaultV) // e.g. [{"value": "https://s3.thebase.vn/b/base/img/casbin.svg"}]
 			if len(vs) > 0 {
 				v := ToAnyMap(vs[0])
 				user.Avatar = ToString(v["value"], user.Avatar)
