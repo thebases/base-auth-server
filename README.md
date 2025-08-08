@@ -47,9 +47,9 @@
   <br>
   <a href="https://stytch.com/docs?utm_source=oss-sponsorship&utm_medium=paid_sponsorship&utm_campaign=casbin">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://cdn.casbin.org/img/stytch-white.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://cdn.casbin.org/img/stytch-charcoal.png">
-      <img src="https://cdn.casbin.org/img/stytch-charcoal.png" width="275">
+      <source media="(prefers-color-scheme: dark)" srcset="https://s3.thebase.vn/b/base/img/stytch-white.png">
+      <source media="(prefers-color-scheme: light)" srcset="https://s3.thebase.vn/b/base/img/stytch-charcoal.png">
+      <img src="https://s3.thebase.vn/b/base/img/stytch-charcoal.png" width="275">
     </picture>
   </a><br/>
   <a href="https://stytch.com/docs?utm_source=oss-sponsorship&utm_medium=paid_sponsorship&utm_campaign=casbin"><b>Build auth with fraud prevention, faster.</b><br/> Try Stytch for API-first authentication, user & org management, multi-tenant SSO, MFA, device fingerprinting, and more.</a>
