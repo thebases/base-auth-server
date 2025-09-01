@@ -31,6 +31,9 @@ IF NOT EXIST %CURR_DIR% (
 IF NOT EXIST %CURR_DIR%\web (
     mkdir %CURR_DIR%\web
 )
+IF NOT EXIST %CURR_DIR%\swagger (
+    mkdir %CURR_DIR%\swagger
+)
 IF NOT EXIST %CURR_DIR%\conf (
     mkdir %CURR_DIR%\conf
 )
@@ -70,4 +73,5 @@ SET SERVICE_FILE=.\%CURR_DIR%\%CURR_DIR%.service
 ECHO Service file created: %SERVICE_FILE%
 COPY .\conf\app_prod.conf .\%CURR_DIR%\conf\app.conf
 xcopy ".\web\build\*" "%CURR_DIR%\web\build\" /E /I /H /C /Y
+xcopy ".\swagger\*" "%CURR_DIR%\swagger\" /E /I /H /C /Y
 tar -cvf base_cas.tar .\%CURR_DIR%

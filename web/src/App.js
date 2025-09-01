@@ -367,7 +367,7 @@ class App extends Component {
         title={
           <React.Fragment>
             <Tooltip title="Want to deploy your own AI assistant? Click to learn more!">
-              <a target="_blank" rel="noreferrer" href={"https://casdoor.com"}>
+              <a target="_blank" rel="noreferrer" href={"https://thebase.vn"}>
                 <img
                   style={{
                     width: "20px",
@@ -375,7 +375,7 @@ class App extends Component {
                     marginBottom: "2px",
                   }}
                   alt="help"
-                  src="https://s3.thebase.vn/b/base//img/casbin.svg"
+                  src="/static/img/casbin.svg"
                 />
                 AI Assistant
               </a>
@@ -685,10 +685,7 @@ class App extends Component {
       <React.Fragment>
         {this.state.account === undefined || this.state.account === null ? (
           <Helmet>
-            <link
-              rel="icon"
-              href={"https://cdn.casdoor.com/static/favicon.png"}
-            />
+            <link rel="icon" href={"/static/favicon.png"} />
           </Helmet>
         ) : (
           <Helmet>
