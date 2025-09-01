@@ -209,6 +209,7 @@
     "TRY": "لیره ترکیه",
     "TWD": "دلار تایوان",
     "USD": "دلار آمریکا",
+    "VND": "VN-Dong",
     "ZAR": "رند آفریقای جنوبی"
   },
   "enforcer": {
@@ -736,7 +737,7 @@
   "payment": {
     "Confirm your invoice information": "اطلاعات فاکتور خود را تأیید کنید",
     "Currency": "واحد پول",
-    "Currency - Tooltip": "مانند USD، CNY و غیره",
+    "Currency - Tooltip": "مانند USD، VND و غیره",
     "Download Invoice": "دانلود فاکتور",
     "Edit Payment": "ویرایش پرداخت",
     "Failed reason": "دلیل عدم موفقیت",

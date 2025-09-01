@@ -209,6 +209,7 @@
     "TRY": "Türkin lira",
     "TWD": "Taiwanin dollari",
     "USD": " Yhdysvaltain dollari",
+    "VND": "VN-Dong",
     "ZAR": "Etelä-Afrikan rand"
   },
   "enforcer": {
@@ -736,7 +737,7 @@
   "payment": {
     "Confirm your invoice information": "Vahvista laskutustietosi",
     "Currency": "Valuutta",
-    "Currency - Tooltip": "Esim. USD, CNY jne.",
+    "Currency - Tooltip": "Esim. USD, VND jne.",
     "Download Invoice": "Lataa lasku",
     "Edit Payment": "Muokkaa maksua",
     "Failed reason": "Epäonnistumisen syy",

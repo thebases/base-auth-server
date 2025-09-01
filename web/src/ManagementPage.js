@@ -13,18 +13,33 @@
 // limitations under the License.
 
 import * as Setting from "./Setting";
-import {Avatar, Button, Card, Drawer, Dropdown, Menu, Result, Tooltip} from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Drawer,
+  Dropdown,
+  Menu,
+  Result,
+  Tooltip,
+} from "antd";
 import EnableMfaNotification from "./common/notifaction/EnableMfaNotification";
-import {Link, Redirect, Route, Switch, withRouter} from "react-router-dom";
-import React, {useState} from "react";
+import { Link, Redirect, Route, Switch, withRouter } from "react-router-dom";
+import React, { useState } from "react";
 import i18next from "i18next";
 import {
   AppstoreTwoTone,
-  BarsOutlined, DeploymentUnitOutlined, DollarTwoTone, DownOutlined,
+  BarsOutlined,
+  DeploymentUnitOutlined,
+  DollarTwoTone,
+  DownOutlined,
   HomeTwoTone,
-  LockTwoTone, LogoutOutlined,
-  SafetyCertificateTwoTone, SettingOutlined, SettingTwoTone,
-  WalletTwoTone
+  LockTwoTone,
+  LogoutOutlined,
+  SafetyCertificateTwoTone,
+  SettingOutlined,
+  SettingTwoTone,
+  WalletTwoTone,
 } from "@ant-design/icons";
 import Dashboard from "./basic/Dashboard";
 import AppListPage from "./basic/AppListPage";
@@ -89,9 +104,9 @@ import ThemeSelect from "./common/select/ThemeSelect";
 import OpenTour from "./common/OpenTour";
 import OrganizationSelect from "./common/select/OrganizationSelect";
 import AccountAvatar from "./account/AccountAvatar";
-import {Content, Header} from "antd/es/layout/layout";
+import { Content, Header } from "antd/es/layout/layout";
 import * as AuthBackend from "./auth/AuthBackend";
-import {clearWeb3AuthToken} from "./auth/Web3Auth";
+import { clearWeb3AuthToken } from "./auth/Web3Auth";
 import TransactionListPage from "./TransactionListPage";
 import TransactionEditPage from "./TransactionEditPage";
 import VerificationListPage from "./VerificationListPage";
@@ -102,38 +117,60 @@ function ManagementPage(props) {
   const widgetItems = props.account?.organization?.widgetItems;
 
   function logout() {
-    AuthBackend.logout()
-      .then((res) => {
-        if (res.status === "ok") {
-          const owner = props.account.owner;
-          props.setLogoutState();
-          clearWeb3AuthToken();
-          Setting.showMessage("success", i18next.t("application:Logged out successfully"));
-          const redirectUri = res.data2;
-          if (redirectUri !== null && redirectUri !== undefined && redirectUri !== "") {
-            Setting.goToLink(redirectUri);
-          } else if (owner !== "built-in") {
-            Setting.goToLink(`${window.location.origin}/login/${owner}`);
-          } else {
-            Setting.goToLinkSoft({props}, "/");
-          }
+    AuthBackend.logout().then((res) => {
+      if (res.status === "ok") {
+        const owner = props.account.owner;
+        props.setLogoutState();
+        clearWeb3AuthToken();
+        Setting.showMessage(
+          "success",
+          i18next.t("application:Logged out successfully")
+        );
+        const redirectUri = res.data2;
+        if (
+          redirectUri !== null &&
+          redirectUri !== undefined &&
+          redirectUri !== ""
+        ) {
+          Setting.goToLink(redirectUri);
+        } else if (owner !== "built-in") {
+          Setting.goToLink(`${window.location.origin}/login/${owner}`);
         } else {
           Setting.showMessage("error", `${i18next.t("general:Failed to log out")}: ${res.msg}`);
+          Setting.goToLinkSoft({ props }, "/");
         }
-      });
+      } else {
+        Setting.showMessage("error", `Failed to log out: ${res.msg}`);
+      }
+    });
   }
 
   function renderAvatar() {
     if (props.account.avatar === "") {
       return (
-        <Avatar style={{backgroundColor: Setting.getAvatarColor(props.account.name), verticalAlign: "middle"}} size="large">
+        <Avatar
+          style={{
+            backgroundColor: Setting.getAvatarColor(props.account.name),
+            verticalAlign: "middle",
+          }}
+          size="large"
+        >
           {Setting.getShortName(props.account.name)}
         </Avatar>
       );
     } else {
       return (
-        <Avatar src={props.account.avatar} style={{verticalAlign: "middle"}} size="large"
-          icon={<AccountAvatar src={props.account.avatar} style={{verticalAlign: "middle"}} size={40} />}
+        <Avatar
+          src={props.account.avatar}
+          style={{ verticalAlign: "middle" }}
+          size="large"
+          icon={
+            <AccountAvatar
+              src={props.account.avatar}
+              style={{ verticalAlign: "middle" }}
+              size={40}
+            />
+          }
         >
           {Setting.getShortName(props.account.name)}
         </Avatar>
@@ -144,12 +181,25 @@ function ManagementPage(props) {
   function renderRightDropdown() {
     const items = [];
     if (props.requiredEnableMfa === false) {
-      items.push(Setting.getItem(<><SettingOutlined />&nbsp;&nbsp;{i18next.t("account:My Account")}</>,
-        "/account"
-      ));
+      items.push(
+        Setting.getItem(
+          <>
+            <SettingOutlined />
+            &nbsp;&nbsp;{i18next.t("account:My Account")}
+          </>,
+          "/account"
+        )
+      );
     }
-    items.push(Setting.getItem(<><LogoutOutlined />&nbsp;&nbsp;{i18next.t("account:Logout")}</>,
-      "/logout"));
+    items.push(
+      Setting.getItem(
+        <>
+          <LogoutOutlined />
+          &nbsp;&nbsp;{i18next.t("account:Logout")}
+        </>,
+        "/logout"
+      )
+    );
 
     const onClick = (e) => {
       if (e.key === "/account") {
@@ -162,17 +212,18 @@ function ManagementPage(props) {
     };
 
     return (
-      <Dropdown key="/rightDropDown" menu={{items, onClick}} >
+      <Dropdown key="/rightDropDown" menu={{ items, onClick }}>
         <div className="rightDropDown">
-          {
-            renderAvatar()
-          }
-                    &nbsp;
-                    &nbsp;
-          {Setting.isMobile() ? null : Setting.getShortText(Setting.getNameAtLeast(props.account.displayName), 30)} &nbsp; <DownOutlined />
-                    &nbsp;
-                    &nbsp;
-                    &nbsp;
+          {renderAvatar()}
+          &nbsp; &nbsp;
+          {Setting.isMobile()
+            ? null
+            : Setting.getShortText(
+                Setting.getNameAtLeast(props.account.displayName),
+                30
+              )}{" "}
+          &nbsp; <DownOutlined />
+          &nbsp; &nbsp; &nbsp;
         </div>
       </Dropdown>
     );
@@ -188,23 +239,37 @@ function ManagementPage(props) {
 
   function renderWidgets() {
     const widgets = [
-      Setting.getItem(<ThemeSelect themeAlgorithm={props.themeAlgorithm} onChange={props.setLogoAndThemeAlgorithm} />, "theme"),
-      Setting.getItem(<LanguageSelect languages={props.account.organization.languages} />, "language"),
-      Setting.getItem(Conf.AiAssistantUrl?.trim() && (
-        <Tooltip title="Click to open AI assistant">
-          <div className="select-box" onClick={props.openAiAssistant}>
-            <DeploymentUnitOutlined style={{fontSize: "24px"}} />
-          </div>
-        </Tooltip>
-      ), "ai-assistant"),
+      Setting.getItem(
+        <ThemeSelect
+          themeAlgorithm={props.themeAlgorithm}
+          onChange={props.setLogoAndThemeAlgorithm}
+        />,
+        "theme"
+      ),
+      Setting.getItem(
+        <LanguageSelect languages={props.account.organization.languages} />,
+        "language"
+      ),
+      Setting.getItem(
+        Conf.AiAssistantUrl?.trim() && (
+          <Tooltip title="Click to open AI assistant">
+            <div className="select-box" onClick={props.openAiAssistant}>
+              <DeploymentUnitOutlined style={{ fontSize: "24px" }} />
+            </div>
+          </Tooltip>
+        ),
+        "ai-assistant"
+      ),
       Setting.getItem(<OpenTour />, "tour"),
     ];
 
     if (widgetItemsIsAll()) {
-      return widgets.map(item => item.label);
+      return widgets.map((item) => item.label);
     }
 
-    return widgets.filter(item => widgetItems.includes(item.key)).map(item => item.label);
+    return widgets
+      .filter((item) => widgetItems.includes(item.key))
+      .map((item) => item.label);
   }
 
   function renderAccountMenu() {
@@ -221,17 +286,18 @@ function ManagementPage(props) {
         <React.Fragment>
           {renderRightDropdown()}
           {renderWidgets()}
-          {Setting.isAdminUser(props.account) && (props.uri.indexOf("/trees") === -1) &&
-                        <OrganizationSelect
-                          initValue={Setting.getOrganization()}
-                          withAll={true}
-                          className="org-select"
-                          style={{display: Setting.isMobile() ? "none" : "flex"}}
-                          onChange={(value) => {
-                            Setting.setOrganization(value);
-                          }}
-                        />
-          }
+          {Setting.isAdminUser(props.account) &&
+            props.uri.indexOf("/trees") === -1 && (
+              <OrganizationSelect
+                initValue={Setting.getOrganization()}
+                withAll={true}
+                className="org-select"
+                style={{ display: Setting.isMobile() ? "none" : "flex" }}
+                onChange={(value) => {
+                  Setting.setOrganization(value);
+                }}
+              />
+            )}
         </React.Fragment>
       );
     }
@@ -247,7 +313,9 @@ function ManagementPage(props) {
     let textColor = "black";
     const twoToneColor = props.themeData.colorPrimary;
 
-    let logo = props.account.organization.logo ? props.account.organization.logo : Setting.getLogo(props.themeAlgorithm);
+    let logo = props.account.organization.logo
+      ? props.account.organization.logo
+      : Setting.getLogo(props.themeAlgorithm);
     if (props.themeAlgorithm.includes("dark")) {
       if (props.account.organization.logoDark) {
         logo = props.account.organization.logoDark;
@@ -255,79 +323,251 @@ function ManagementPage(props) {
       textColor = "white";
     }
 
-    !Setting.isMobile() ? res.push({
-      label:
+    !Setting.isMobile()
+      ? res.push({
+          label: (
             <Link to="/">
               <img className="logo" src={logo ?? props.logo} alt="logo" />
-            </Link>,
-      disabled: true, key: "logo",
-      style: {
-        padding: 0,
-        height: "auto",
-      },
-    }) : null;
+            </Link>
+          ),
+          disabled: true,
+          key: "logo",
+          style: {
+            padding: 0,
+            height: "auto",
+          },
+        })
+      : null;
 
-    res.push(Setting.getItem(<Link style={{color: textColor}} to="/">{i18next.t("general:Home")}</Link>, "/home", <HomeTwoTone twoToneColor={twoToneColor} />, [
-      Setting.getItem(<Link to="/">{i18next.t("general:Dashboard")}</Link>, "/"),
-      Setting.getItem(<Link to="/shortcuts">{i18next.t("general:Shortcuts")}</Link>, "/shortcuts"),
-      Setting.getItem(<Link to="/apps">{i18next.t("general:Apps")}</Link>, "/apps"),
-    ].filter(item => {
-      return Setting.isLocalAdminUser(props.account);
-    })));
+    res.push(
+      Setting.getItem(
+        <Link style={{ color: textColor }} to="/">
+          {i18next.t("general:Home")}
+        </Link>,
+        "/home",
+        <HomeTwoTone twoToneColor={twoToneColor} />,
+        [
+          Setting.getItem(
+            <Link to="/">{i18next.t("general:Dashboard")}</Link>,
+            "/"
+          ),
+          Setting.getItem(
+            <Link to="/shortcuts">{i18next.t("general:Shortcuts")}</Link>,
+            "/shortcuts"
+          ),
+          Setting.getItem(
+            <Link to="/apps">{i18next.t("general:Apps")}</Link>,
+            "/apps"
+          ),
+        ].filter((item) => {
+          return Setting.isLocalAdminUser(props.account);
+        })
+      )
+    );
 
     if (Setting.isLocalAdminUser(props.account)) {
       if (Conf.ShowGithubCorner) {
-        res.push(Setting.getItem(<a href={"https://casdoor.com"}>
-          <span style={{fontWeight: "bold", backgroundColor: "rgba(87,52,211,0.4)", marginTop: "12px", paddingLeft: "5px", paddingRight: "5px", display: "flex", alignItems: "center", height: "40px", borderRadius: "5px"}}>
-            🚀 SaaS Hosting 🔥
-          </span>
-        </a>, "#"));
+        res.push(
+          Setting.getItem(
+            <a href={"https://casdoor.com"}>
+              <span
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "rgba(87,52,211,0.4)",
+                  marginTop: "12px",
+                  paddingLeft: "5px",
+                  paddingRight: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                  height: "40px",
+                  borderRadius: "5px",
+                }}
+              >
+                🚀 SaaS Hosting 🔥
+              </span>
+            </a>,
+            "#"
+          )
+        );
       }
 
-      res.push(Setting.getItem(<Link style={{color: textColor}} to="/organizations">{i18next.t("general:User Management")}</Link>, "/orgs", <AppstoreTwoTone twoToneColor={twoToneColor} />, [
-        Setting.getItem(<Link to="/organizations">{i18next.t("general:Organizations")}</Link>, "/organizations"),
-        Setting.getItem(<Link to="/groups">{i18next.t("general:Groups")}</Link>, "/groups"),
-        Setting.getItem(<Link to="/users">{i18next.t("general:Users")}</Link>, "/users"),
-        Setting.getItem(<Link to="/invitations">{i18next.t("general:Invitations")}</Link>, "/invitations"),
-      ]));
+      res.push(
+        Setting.getItem(
+          <Link style={{ color: textColor }} to="/organizations">
+            {i18next.t("general:User Management")}
+          </Link>,
+          "/orgs",
+          <AppstoreTwoTone twoToneColor={twoToneColor} />,
+          [
+            Setting.getItem(
+              <Link to="/organizations">
+                {i18next.t("general:Organizations")}
+              </Link>,
+              "/organizations"
+            ),
+            Setting.getItem(
+              <Link to="/groups">{i18next.t("general:Groups")}</Link>,
+              "/groups"
+            ),
+            Setting.getItem(
+              <Link to="/users">{i18next.t("general:Users")}</Link>,
+              "/users"
+            ),
+            Setting.getItem(
+              <Link to="/invitations">{i18next.t("general:Invitations")}</Link>,
+              "/invitations"
+            ),
+          ]
+        )
+      );
 
-      res.push(Setting.getItem(<Link style={{color: textColor}} to="/applications">{i18next.t("general:Identity")}</Link>, "/identity", <LockTwoTone twoToneColor={twoToneColor} />, [
-        Setting.getItem(<Link to="/applications">{i18next.t("general:Applications")}</Link>, "/applications"),
-        Setting.getItem(<Link to="/providers">{i18next.t("general:Providers")}</Link>, "/providers"),
-        Setting.getItem(<Link to="/resources">{i18next.t("general:Resources")}</Link>, "/resources"),
-        Setting.getItem(<Link to="/certs">{i18next.t("general:Certs")}</Link>, "/certs"),
-      ]));
+      res.push(
+        Setting.getItem(
+          <Link style={{ color: textColor }} to="/applications">
+            {i18next.t("general:Identity")}
+          </Link>,
+          "/identity",
+          <LockTwoTone twoToneColor={twoToneColor} />,
+          [
+            Setting.getItem(
+              <Link to="/applications">
+                {i18next.t("general:Applications")}
+              </Link>,
+              "/applications"
+            ),
+            Setting.getItem(
+              <Link to="/providers">{i18next.t("general:Providers")}</Link>,
+              "/providers"
+            ),
+            Setting.getItem(
+              <Link to="/resources">{i18next.t("general:Resources")}</Link>,
+              "/resources"
+            ),
+            Setting.getItem(
+              <Link to="/certs">{i18next.t("general:Certs")}</Link>,
+              "/certs"
+            ),
+          ]
+        )
+      );
 
-      res.push(Setting.getItem(<Link style={{color: textColor}} to="/roles">{i18next.t("general:Authorization")}</Link>, "/auth", <SafetyCertificateTwoTone twoToneColor={twoToneColor} />, [
-        Setting.getItem(<Link to="/roles">{i18next.t("general:Roles")}</Link>, "/roles"),
-        Setting.getItem(<Link to="/permissions">{i18next.t("general:Permissions")}</Link>, "/permissions"),
-        Setting.getItem(<Link to="/models">{i18next.t("general:Models")}</Link>, "/models"),
-        Setting.getItem(<Link to="/adapters">{i18next.t("general:Adapters")}</Link>, "/adapters"),
-        Setting.getItem(<Link to="/enforcers">{i18next.t("general:Enforcers")}</Link>, "/enforcers"),
-      ].filter(item => {
-        if (!Setting.isLocalAdminUser(props.account) && ["/models", "/adapters", "/enforcers"].includes(item.key)) {
-          return false;
-        } else {
-          return true;
-        }
-      })));
+      res.push(
+        Setting.getItem(
+          <Link style={{ color: textColor }} to="/roles">
+            {i18next.t("general:Authorization")}
+          </Link>,
+          "/auth",
+          <SafetyCertificateTwoTone twoToneColor={twoToneColor} />,
+          [
+            Setting.getItem(
+              <Link to="/roles">{i18next.t("general:Roles")}</Link>,
+              "/roles"
+            ),
+            Setting.getItem(
+              <Link to="/permissions">{i18next.t("general:Permissions")}</Link>,
+              "/permissions"
+            ),
+            Setting.getItem(
+              <Link to="/models">{i18next.t("general:Models")}</Link>,
+              "/models"
+            ),
+            Setting.getItem(
+              <Link to="/adapters">{i18next.t("general:Adapters")}</Link>,
+              "/adapters"
+            ),
+            Setting.getItem(
+              <Link to="/enforcers">{i18next.t("general:Enforcers")}</Link>,
+              "/enforcers"
+            ),
+          ].filter((item) => {
+            if (
+              !Setting.isLocalAdminUser(props.account) &&
+              ["/models", "/adapters", "/enforcers"].includes(item.key)
+            ) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+        )
+      );
 
-      res.push(Setting.getItem(<Link style={{color: textColor}} to="/sessions">{i18next.t("general:Logging & Auditing")}</Link>, "/logs", <WalletTwoTone twoToneColor={twoToneColor} />, [
-        Setting.getItem(<Link to="/sessions">{i18next.t("general:Sessions")}</Link>, "/sessions"),
-        Conf.CasvisorUrl ? Setting.getItem(<a target="_blank" rel="noreferrer" href={Conf.CasvisorUrl}>{i18next.t("general:Records")}</a>, "/records")
-          : Setting.getItem(<Link to="/records">{i18next.t("general:Records")}</Link>, "/records"),
-        Setting.getItem(<Link to="/tokens">{i18next.t("general:Tokens")}</Link>, "/tokens"),
-        Setting.getItem(<Link to="/verifications">{i18next.t("general:Verifications")}</Link>, "/verifications"),
-      ]));
+      res.push(
+        Setting.getItem(
+          <Link style={{ color: textColor }} to="/sessions">
+            {i18next.t("general:Logging & Auditing")}
+          </Link>,
+          "/logs",
+          <WalletTwoTone twoToneColor={twoToneColor} />,
+          [
+            Setting.getItem(
+              <Link to="/sessions">{i18next.t("general:Sessions")}</Link>,
+              "/sessions"
+            ),
+            Conf.CasvisorUrl
+              ? Setting.getItem(
+                  <a target="_blank" rel="noreferrer" href={Conf.CasvisorUrl}>
+                    {i18next.t("general:Records")}
+                  </a>,
+                  "/records"
+                )
+              : Setting.getItem(
+                  <Link to="/records">{i18next.t("general:Records")}</Link>,
+                  "/records"
+                ),
+            Setting.getItem(
+              <Link to="/tokens">{i18next.t("general:Tokens")}</Link>,
+              "/tokens"
+            ),
+            Setting.getItem(
+              <Link to="/verifications">
+                {i18next.t("general:Verifications")}
+              </Link>,
+              "/verifications"
+            ),
+          ]
+        )
+      );
 
-      res.push(Setting.getItem(<Link style={{color: textColor}} to="/products">{i18next.t("general:Business & Payments")}</Link>, "/business", <DollarTwoTone twoToneColor={twoToneColor} />, [
-        Setting.getItem(<Link to="/products">{i18next.t("general:Products")}</Link>, "/products"),
-        Setting.getItem(<Link to="/payments">{i18next.t("general:Payments")}</Link>, "/payments"),
-        Setting.getItem(<Link to="/plans">{i18next.t("general:Plans")}</Link>, "/plans"),
-        Setting.getItem(<Link to="/pricings">{i18next.t("general:Pricings")}</Link>, "/pricings"),
-        Setting.getItem(<Link to="/subscriptions">{i18next.t("general:Subscriptions")}</Link>, "/subscriptions"),
-        Setting.getItem(<Link to="/transactions">{i18next.t("general:Transactions")}</Link>, "/transactions"),
-      ]));
+      res.push(
+        Setting.getItem(
+          <Link style={{ color: textColor }} to="/products">
+            {i18next.t("general:Business & Payments")}
+          </Link>,
+          "/business",
+          <DollarTwoTone twoToneColor={twoToneColor} />,
+          [
+            Setting.getItem(
+              <Link to="/products">{i18next.t("general:Products")}</Link>,
+              "/products"
+            ),
+            Setting.getItem(
+              <Link to="/payments">{i18next.t("general:Payments")}</Link>,
+              "/payments"
+            ),
+            Setting.getItem(
+              <Link to="/plans">{i18next.t("general:Plans")}</Link>,
+              "/plans"
+            ),
+            Setting.getItem(
+              <Link to="/pricings">{i18next.t("general:Pricings")}</Link>,
+              "/pricings"
+            ),
+            Setting.getItem(
+              <Link to="/subscriptions">
+                {i18next.t("general:Subscriptions")}
+              </Link>,
+              "/subscriptions"
+            ),
+            Setting.getItem(
+              <Link to="/transactions">
+                {i18next.t("general:Transactions")}
+              </Link>,
+              "/transactions"
+            ),
+          ]
+        )
+      );
 
       if (Setting.isAdminUser(props.account)) {
         res.push(Setting.getItem(<Link style={{color: textColor}} to="/sysinfo">{i18next.t("general:Admin")}</Link>, "/admin", <SettingTwoTone twoToneColor={twoToneColor} />, [
@@ -348,12 +588,12 @@ function ManagementPage(props) {
       return res;
     }
 
-    const resFiltered = res.map(item => {
+    const resFiltered = res.map((item) => {
       if (!Array.isArray(item.children)) {
         return item;
       }
       const filteredChildren = [];
-      item.children.forEach(itemChild => {
+      item.children.forEach((itemChild) => {
         if (navItems.includes(itemChild.key)) {
           filteredChildren.push(itemChild);
         }
@@ -363,8 +603,10 @@ function ManagementPage(props) {
       return item;
     });
 
-    return resFiltered.filter(item => {
-      if (item.key === "#" || item.key === "logo") {return true;}
+    return resFiltered.filter((item) => {
+      if (item.key === "#" || item.key === "logo") {
+        return true;
+      }
       return Array.isArray(item.children) && item.children.length > 0;
     });
   }
@@ -471,19 +713,34 @@ function ManagementPage(props) {
   return (
     <React.Fragment>
       <EnableMfaNotification account={props.account} />
-      <Header style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0", marginBottom: "4px", backgroundColor: props.themeAlgorithm.includes("dark") ? "black" : "white"}} >
-        {
-          props.requiredEnableMfa || (Setting.isMobile() ? (
+      <Header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "0",
+          marginBottom: "4px",
+          backgroundColor: props.themeAlgorithm.includes("dark")
+            ? "black"
+            : "white",
+        }}
+      >
+        {props.requiredEnableMfa ||
+          (Setting.isMobile() ? (
             <React.Fragment>
-              <Drawer title={i18next.t("general:Close")} placement="left" open={menuVisible} onClose={onClose}>
+              <Drawer
+                title={i18next.t("general:Close")}
+                placement="left"
+                open={menuVisible}
+                onClose={onClose}
+              >
                 <Menu
                   items={getMenuItems()}
                   mode={"inline"}
                   selectedKeys={[props.selectedMenuKey]}
-                  style={{lineHeight: "64px"}}
+                  style={{ lineHeight: "64px" }}
                   onClick={onClose}
-                >
-                </Menu>
+                ></Menu>
               </Drawer>
               <Button icon={<BarsOutlined />} onClick={showMenu} type="text">
                 {i18next.t("general:Menu")}
@@ -491,28 +748,28 @@ function ManagementPage(props) {
             </React.Fragment>
           ) : (
             // Padding 1px for Menu Item Highlight border
-            <div style={{flex: 1, overflow: "hidden", paddingBottom: "1px"}}>
+            <div style={{ flex: 1, overflow: "hidden", paddingBottom: "1px" }}>
               <Menu
                 onClick={onClose}
                 items={getMenuItems()}
                 mode={"horizontal"}
                 selectedKeys={[props.selectedMenuKey]}
-                style={{backgroundColor: props.themeAlgorithm.includes("dark") ? "black" : "white"}}
+                style={{
+                  backgroundColor: props.themeAlgorithm.includes("dark")
+                    ? "black"
+                    : "white",
+                }}
               />
             </div>
-          ))
-        }
-        <div style={{flexShrink: 0}}>
-          {renderAccountMenu()}
-        </div>
+          ))}
+        <div style={{ flexShrink: 0 }}>{renderAccountMenu()}</div>
       </Header>
-      <Content style={{display: "flex", flexDirection: "column"}} >
-        {isWithoutCard() ?
-          renderRouter() :
-          <Card className="content-warp-card">
-            {renderRouter()}
-          </Card>
-        }
+      <Content style={{ display: "flex", flexDirection: "column" }}>
+        {isWithoutCard() ? (
+          renderRouter()
+        ) : (
+          <Card className="content-warp-card">{renderRouter()}</Card>
+        )}
       </Content>
     </React.Fragment>
   );

@@ -209,6 +209,7 @@
     "TRY": "Туркия лиры",
     "TWD": "Тайвань доллары",
     "USD": "АҚШ доллары",
+    "VND": "VN-Dong",
     "ZAR": "Оңтүстік Африка ранды"
   },
   "enforcer": {
@@ -736,7 +737,7 @@
   "payment": {
     "Confirm your invoice information": "Шот-фактура деректерін растаңыз",
     "Currency": "Валюта",
-    "Currency - Tooltip": "Мысалы: USD, CNY ж.б.",
+    "Currency - Tooltip": "Мысалы: USD, VND ж.б.",
     "Download Invoice": "Шот-фактура жүктеп алу",
     "Edit Payment": "Төлемді өңдеу",
     "Failed reason": "Сәтсіздік себебі",

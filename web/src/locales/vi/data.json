@@ -209,6 +209,7 @@
     "TRY": "Lira Thổ Nhĩ Kỳ",
     "TWD": "Đô la Đài Loan",
     "USD": "Đô la Mỹ",
+    "VND": "Đồng",
     "ZAR": "Rand Nam Phi"
   },
   "enforcer": {
@@ -736,7 +737,7 @@
   "payment": {
     "Confirm your invoice information": "Xác nhận thông tin hóa đơn của bạn",
     "Currency": "Tiền tệ",
-    "Currency - Tooltip": "Như USD, CNY, v.v.",
+    "Currency - Tooltip": "Như USD, VND, v.v.",
     "Download Invoice": "Tải hóa đơn",
     "Edit Payment": "Chỉnh sửa thanh toán",
     "Failed reason": "Lý do thất bại",
