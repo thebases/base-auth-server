@@ -201,6 +201,7 @@
     "TRY": "Lira turca",
     "TWD": "Dólar taiwanés",
     "USD": "Dólar estadounidense",
+    "VND": "VN-Dong",
     "ZAR": "Rand sudafricano"
   },
   "enforcer": {
@@ -678,7 +679,7 @@
   "payment": {
     "Confirm your invoice information": "Confirma la información de tu factura",
     "Currency": "Moneda",
-    "Currency - Tooltip": "Como USD, CNY, etc.",
+    "Currency - Tooltip": "Como USD, VND, etc.",
     "Download Invoice": "Descargar factura",
     "Edit Payment": "Editar pago",
     "Failed reason": "Razón del fallo",

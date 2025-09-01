@@ -201,6 +201,7 @@
     "TRY": "TRY",
     "TWD": "TWD",
     "USD": "USD",
+    "VND": "VND",
     "ZAR": "ZAR"
   },
   "enforcer": {
@@ -678,7 +679,7 @@
   "payment": {
     "Confirm your invoice information": "Confirm your invoice information",
     "Currency": "Currency",
-    "Currency - Tooltip": "Like USD, CNY, etc.",
+    "Currency - Tooltip": "Like USD, VND, etc.",
     "Download Invoice": "Download Invoice",
     "Edit Payment": "Edit Payment",
     "Failed reason": "Failed reason",

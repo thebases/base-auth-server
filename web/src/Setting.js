@@ -1606,6 +1606,8 @@ export function builtInObject(obj) {
 export function getCurrencySymbol(currency) {
   if (currency === "USD" || currency === "usd") {
     return "$";
+  } else if (currency === "VND" || currency === "vnd") {
+    return "đ";
   } else if (currency === "CNY" || currency === "cny") {
     return "¥";
   } else if (currency === "EUR" || currency === "eur") {
@@ -1782,6 +1784,8 @@ export function getDefaultHtmlEmailContent() {
 export function getCurrencyText(product) {
   if (product?.currency === "USD") {
     return i18next.t("currency:USD");
+  } else if (product?.currency === "VND") {
+    return i18next.t("currency:VND");
   } else if (product?.currency === "CNY") {
     return i18next.t("currency:CNY");
   } else if (product?.currency === "EUR") {

@@ -1,6 +1,7 @@
 @ECHO OFF
 REM Get the current folder name
 SET CURR_DIR=base_cas_auth
+SET CGO_ENABLED=0 
 
 
 REM Check if an argument is provided
@@ -35,7 +36,7 @@ IF NOT EXIST %CURR_DIR%\conf (
 )
 
 REM Build the Go project
-go build -ldflags="-w -s" -o %OUTPUT%
+go build -ldflags="-w -s -n -v" -o %OUTPUT% 
 IF ERRORLEVEL 1 (
     ECHO Build failed.
     EXIT /B 1
@@ -57,7 +58,6 @@ SET SERVICE_FILE=.\%CURR_DIR%\%CURR_DIR%.service
     ECHO Group=thebase
     ECHO WorkingDirectory=/opt/%CURR_DIR%
     ECHO ExecStart=/opt/%CURR_DIR%/%CURR_DIR% 
-    ECHO #EnvironmentFile=/root/data/open-api/.env
     ECHO StandardOutput=journal+console
     ECHO StandardError=journal+console
     ECHO Restart=on-failure
@@ -68,6 +68,6 @@ SET SERVICE_FILE=.\%CURR_DIR%\%CURR_DIR%.service
 ) > %SERVICE_FILE%
 
 ECHO Service file created: %SERVICE_FILE%
-COPY .\conf\app.conf .\%CURR_DIR%\conf
+COPY .\conf\app_prod.conf .\%CURR_DIR%\conf\app.conf
 xcopy ".\web\build\*" "%CURR_DIR%\web\build\" /E /I /H /C /Y
 tar -cvf base_cas.tar .\%CURR_DIR%
